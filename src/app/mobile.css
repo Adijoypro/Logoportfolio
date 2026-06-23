@@ -1,0 +1,191 @@
+/* ════════════════════════════════════════════
+   MOBILE RESPONSIVE — portfolio-logo-nextjs-v2
+   Import this in globals.css:
+   @import './mobile.css';
+════════════════════════════════════════════ */
+
+/* ── Touch: hide cursor ── */
+@media (hover: none) and (pointer: coarse) {
+  body { cursor: auto !important; }
+  #cursor { display: none !important; }
+  [class*="trail"] { display: none !important; }
+  .section-counter { display: none !important; }
+  .section-flash   { display: none !important; }
+}
+
+/* ══════════ NAV ══════════ */
+@media (max-width: 768px) {
+  nav#navbar { padding: 0 20px !important; height: 60px !important; }
+}
+
+/* ══════════ HERO ══════════ */
+@media (max-width: 768px) {
+  section#hero { height: 100svh; overflow: hidden; }
+
+  .hero-tagline {
+    left: 20px !important; right: 20px !important;
+    max-width: 100% !important;
+    top: auto !important; bottom: 46% !important;
+    transform: none !important;
+  }
+  .hero-tagline h1 {
+    font-size: clamp(22px, 6.5vw, 32px) !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Ghost text */
+  .ghost-text:first-of-type {
+    font-size: clamp(60px, 23vw, 110px) !important;
+  }
+
+  /* Hero footer */
+  .hero-footer-bar {
+    left: 20px !important; right: 20px !important;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+  }
+}
+
+/* Logo marks — mobile repositioning handled by JS via LOGO_MARKS_MOBILE in logoMarks.ts */
+
+/* ══════════ WORK SECTION ══════════ */
+@media (max-width: 768px) {
+  section#work { padding: 72px 20px 60px !important; }
+
+  /* Filters scrollable */
+  .work-filters-wrap {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    padding-bottom: 4px !important;
+    margin-bottom: 32px !important;
+    gap: 6px !important;
+  }
+  .work-filters-wrap::-webkit-scrollbar { display: none; }
+  .filter-pill { flex-shrink: 0 !important; white-space: nowrap !important; min-height: 40px !important; }
+
+  /* Cards — single column */
+  .work-card-wide,
+  .work-card-mid,
+  .work-card-third,
+  .work-card-full {
+    grid-column: span 12 !important;
+  }
+  .work-card-wide   .card-visual { padding-bottom: 58% !important; }
+  .work-card-mid    .card-visual { padding-bottom: 58% !important; }
+  .work-card-third  .card-visual { padding-bottom: 58% !important; }
+  .work-card-full   .card-visual { padding-bottom: 58% !important; }
+
+  .card-name { font-size: 16px !important; }
+  .card-info { padding: 14px 16px !important; }
+  .marquee-item { font-size: 12px !important; padding: 0 20px !important; }
+}
+
+/* ══════════ PROJECT MODAL ══════════ */
+@media (max-width: 768px) {
+  [data-modal-panel] {
+    width: 96vw !important;
+    max-height: 90vh !important;
+    border-radius: 12px !important;
+    overflow-y: auto !important;
+    grid-template-columns: 1fr !important;
+  }
+  [data-modal-left]  { min-height: 200px !important; max-height: 220px !important; }
+  [data-modal-right] { padding: 22px 18px !important; }
+  [data-modal-name]  { font-size: 22px !important; }
+  [data-modal-cta]   { width: 100% !important; justify-content: center !important; }
+}
+
+/* ══════════ SERVICES ══════════ */
+@media (max-width: 768px) {
+  section#services { padding: 72px 20px !important; }
+  .services-grid { grid-template-columns: 1fr !important; }
+  .service-item { padding: 32px 24px !important; }
+}
+
+/* ══════════ ABOUT ══════════ */
+@media (max-width: 768px) {
+  section#about { padding: 72px 20px !important; }
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+  .about-portrait { max-width: 230px !important; margin: 0 auto !important; }
+  .about-bio p { font-size: 13px !important; line-height: 1.75 !important; }
+  .about-stats { gap: 16px !important; }
+  .stat-num { font-size: clamp(24px, 6.5vw, 38px) !important; }
+  .stat-label { font-size: 9px !important; }
+}
+
+/* ══════════ CONTACT ══════════ */
+@media (max-width: 768px) {
+  section#contact { padding: 72px 20px !important; }
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+  .contact-heading { font-size: clamp(26px, 8vw, 38px) !important; }
+
+  /* Prevent iOS auto-zoom on input focus */
+  .form-input, .form-select, .form-textarea {
+    font-size: 16px !important;
+  }
+  .form-row { grid-template-columns: 1fr !important; }
+  .form-submit { width: 100% !important; justify-content: center !important; }
+  .budget-pills { gap: 6px !important; }
+  .budget-pill  { font-size: 10px !important; padding: 6px 12px !important; min-height: 38px !important; }
+}
+
+/* ══════════ FOOTER ══════════ */
+@media (max-width: 768px) {
+  footer {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 14px !important;
+    padding: 28px 20px calc(28px + env(safe-area-inset-bottom, 0px)) !important;
+    text-align: center !important;
+  }
+}
+
+/* ══════════ TABLET (769–1024px) ══════════ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  #navbar    { padding: 0 28px !important; }
+  section#work     { padding: 90px 28px 72px !important; }
+  section#services { padding: 72px 28px !important; }
+  section#about    { padding: 80px 28px !important; }
+  section#contact  { padding: 80px 28px !important; }
+  footer           { padding: 28px !important; }
+
+  .about-grid    { gap: 48px !important; }
+  .contact-grid  { gap: 48px !important; }
+
+  /* Cards — on tablet, third becomes half */
+  .work-card-third { grid-column: span 6 !important; }
+}
+
+/* ══════════ SAFE AREA — iPhone notch/Dynamic Island ══════════ */
+@media (max-width: 768px) {
+  nav#navbar {
+    padding-top: env(safe-area-inset-top, 0px) !important;
+    height: calc(60px + env(safe-area-inset-top, 0px)) !important;
+  }
+}
+
+/* ══════════ TAP TARGETS & TOUCH UX ══════════ */
+@media (hover: none) and (pointer: coarse) {
+  .filter-pill,
+  .budget-pill,
+  .project-card .card-arrow,
+  .nav-mega-link,
+  button { -webkit-tap-highlight-color: transparent; }
+
+  .logo-item { min-width: 44px; min-height: 44px; }
+
+  /* Active states replace hover states */
+  .project-card:active { opacity: 0.92; }
+  .filter-pill:active  { opacity: 0.8; }
+}

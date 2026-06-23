@@ -1,113 +1,142 @@
-import Image from "next/image";
+'use client'
+import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import LoadingScreen    from '@/components/ui/LoadingScreen'
+import Navbar           from '@/components/layout/Navbar'
+import HeroSection      from '@/components/hero/HeroSection'
+import WorkSection      from '@/components/work/WorkSection'
+import { ServicesSection, AboutSection, ContactSection, Footer } from '@/components/sections'
+import { useScrollProgress } from '@/hooks/useScrollProgress'
+
+const SECTIONS = ['hero','work','services','about','contact']
+const LABELS   = { hero:'Home', work:'Work', services:'Services', about:'About', contact:'Contact' }
 
 export default function Home() {
+  const { progress, activeSection } = useScrollProgress()
+  const cursorRef   = useRef<HTMLDivElement>(null)
+  const flashRef    = useRef<HTMLDivElement>(null)
+  const flashTimer  = useRef<ReturnType<typeof setTimeout>>()
+  const prevSection = useRef('')
+  const trailRefs   = useRef<HTMLDivElement[]>([])
+  const [isMobile,  setIsMobile]  = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768 || window.matchMedia('(hover: none)').matches)
+    check()
+    window.addEventListener('resize', check, { passive: true })
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  // Cursor
+  useEffect(() => {
+    const move = (e: MouseEvent) => {
+      if (!cursorRef.current) return
+      cursorRef.current.style.left = e.clientX + 'px'
+      cursorRef.current.style.top  = e.clientY + 'px'
+      trailRefs.current.forEach(d => {
+        d.style.left = e.clientX + 'px'
+        d.style.top  = e.clientY + 'px'
+      })
+    }
+    window.addEventListener('mousemove', move, { passive: true })
+    return () => window.removeEventListener('mousemove', move)
+  }, [])
+
+  // Section flash label
+  useEffect(() => {
+    if (activeSection === prevSection.current) return
+    prevSection.current = activeSection
+    const flash = flashRef.current
+    if (!flash) return
+    flash.textContent = LABELS[activeSection as keyof typeof LABELS] || ''
+    flash.style.opacity = '1'
+    flash.style.transform = 'translateX(-50%) translateY(0)'
+    clearTimeout(flashTimer.current)
+    flashTimer.current = setTimeout(() => {
+      flash.style.opacity = '0'
+      flash.style.transform = 'translateX(-50%) translateY(10px)'
+    }, 1600)
+  }, [activeSection])
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <>
+      <LoadingScreen />
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+      {/* Cursor — desktop only */}
+      {!isMobile && <div id="cursor" ref={cursorRef} />}
+
+      {/* Cursor trail — desktop only */}
+      {!isMobile && Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} ref={el => { if (el) trailRefs.current[i] = el }}
+          style={{
+            position:'fixed', borderRadius:'50%', pointerEvents:'none',
+            zIndex:9998, mixBlendMode:'multiply', background:'#c8401a',
+            width: `${4 + i * 1.5}px`, height: `${4 + i * 1.5}px`,
+            opacity: 0.18 - i * 0.025,
+            transform:'translate(-50%,-50%)',
+            transition: `left ${0.04 + i * 0.045}s ease, top ${0.04 + i * 0.045}s ease`,
+            willChange:'left,top',
+          }}
         />
-      </div>
+      ))}
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+      {/* Scroll progress bar */}
+      <div style={{
+        position:'fixed', top:0, left:0, height:'2px',
+        width: `${progress}%`, background:'#c8401a',
+        zIndex:900, pointerEvents:'none',
+        transition:'width 0.08s linear',
+      }} />
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+      {/* Section pips — desktop only */}
+      {!isMobile && (
+        <nav aria-hidden="true" style={{
+          position:'fixed', right:'40px', top:'50%',
+          transform:'translateY(-50%)', zIndex:200,
+          display:'flex', flexDirection:'column', gap:'10px',
+          pointerEvents:'none',
+        }}>
+          {SECTIONS.map(id => (
+            <button key={id}
+              onClick={() => document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' })}
+              aria-label={LABELS[id as keyof typeof LABELS]}
+              style={{
+                pointerEvents:'all', cursor:'none', border:'none', padding:0,
+                width:'4px',
+                height: activeSection === id ? '20px' : '4px',
+                borderRadius: activeSection === id ? '3px' : '50%',
+                background: activeSection === id ? '#c8401a' : 'rgba(26,24,20,0.18)',
+                transition:'background 0.3s, height 0.3s, border-radius 0.3s',
+              }}
+            />
+          ))}
+        </nav>
+      )}
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+      {/* Section flash label */}
+      <div ref={flashRef} style={{
+        position:'fixed', bottom:'44px', left:'50%',
+        transform:'translateX(-50%) translateY(10px)',
+        zIndex:300,
+        fontSize:'10px', letterSpacing:'0.14em', textTransform:'uppercase',
+        color:'#1a1814', background:'#f5f2ec',
+        border:'1px solid rgba(26,24,20,0.12)',
+        padding:'6px 20px', borderRadius:'100px',
+        opacity:0, pointerEvents:'none',
+        transition:'opacity 0.25s ease, transform 0.25s ease',
+      }} />
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+      <Navbar />
+
+      <main>
+        <HeroSection />
+        <WorkSection />
+        <ServicesSection />
+        <AboutSection />
+        <ContactSection />
+      </main>
+
+      <Footer />
+    </>
+  )
 }
