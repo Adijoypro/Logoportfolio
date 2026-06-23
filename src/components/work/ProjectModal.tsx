@@ -45,7 +45,14 @@ export default function ProjectModal({ projectId, onClose, onNavigate }: Props) 
           key="modal"
           initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
           transition={{ duration:0.3 }}
-          style={{ position:'fixed', inset:0, zIndex:1000 }}
+          style={{ 
+            position:'fixed', 
+            inset:0, 
+            zIndex:1000,
+            display: 'flex', // Tambahan: Pakai flexbox
+            alignItems: isMobile ? 'flex-end' : 'center', // Mobile nempel bawah, Desktop di tengah
+            justifyContent: 'center' // Otomatis tengahin ke samping
+          }}
         >
           {/* Backdrop */}
           <div onClick={onClose} style={{ position:'absolute', inset:0, background:'rgba(26,24,20,0.72)', backdropFilter:'blur(6px)' }} />
@@ -55,12 +62,8 @@ export default function ProjectModal({ projectId, onClose, onNavigate }: Props) 
             initial={{ y:'4%', opacity:0 }} animate={{ y:0, opacity:1 }} exit={{ y:'4%', opacity:0 }}
             transition={{ duration:0.38, ease:[0.34,1.1,0.64,1] }}
             style={{
-              position:'absolute',
-              top: isMobile ? 'auto' : '50%',
-              bottom: isMobile ? '0' : 'auto',
-              left: isMobile ? '0' : '50%',
-              right: isMobile ? '0' : 'auto',
-              transform: isMobile ? 'none' : 'translate(-50%,-50%)',
+              position:'relative', // Ganti jadi relative (jangan absolute)
+              zIndex: 10, // Biar gak tenggelam di bawah backdrop
               width: isMobile ? '100%' : 'min(960px,92vw)',
               maxHeight: isMobile ? '92svh' : '88vh',
               borderRadius: isMobile ? '16px 16px 0 0' : '8px',
@@ -68,8 +71,10 @@ export default function ProjectModal({ projectId, onClose, onNavigate }: Props) 
               display:'grid',
               gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
               boxShadow:'0 32px 80px rgba(0,0,0,0.35)',
+              // Semua script top, bottom, left, right, & transform dihapus!
             }}
           >
+          
             {/* Close */}
             <button onClick={onClose} onMouseEnter={hover} onMouseLeave={unhover}
               style={{ position:'absolute', top:'16px', right:'16px', zIndex:10, width:'36px', height:'36px', borderRadius:'50%', border:'1px solid rgba(255,255,255,0.18)', background:'rgba(255,255,255,0.1)', backdropFilter:'blur(8px)', color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', cursor: isMobile ? 'pointer' : 'none', WebkitTapHighlightColor:'transparent' }}>

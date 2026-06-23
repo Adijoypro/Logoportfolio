@@ -96,12 +96,12 @@ export default function HeroSection() {
             style={{
               position:'absolute', zIndex:10,
               left:'44px', maxWidth:'420px',
-              top:'50%', transform:'translateY(-50%)',
+              top:'35%', transform:'translateY(-50%)',
             }}
           >
             <h1 style={{
               fontFamily:'DM Serif Display,serif', fontWeight:400,
-              fontSize:'clamp(20px,2.4vw,34px)',
+              fontSize:'clamp(50px,2.4vw,34px)',
               lineHeight:1.3, color:'#1a1814', letterSpacing:'-0.01em',
             }}>
               {SITE.heroText.line1}<br/>
@@ -111,7 +111,7 @@ export default function HeroSection() {
             </h1>
             <p style={{ marginTop:'22px', fontSize:'11px', letterSpacing:'0.08em', textTransform:'uppercase', color:'#8c8880', display:'flex', alignItems:'center', gap:'10px' }}>
               <span style={{ display:'block', width:'24px', height:'1px', background:'#8c8880', flexShrink:0 }} />
-              {SITE.tagline} · Kalimantan
+              {SITE.tagline} · Tenggarong
             </p>
           </motion.div>
 
@@ -195,7 +195,7 @@ export default function HeroSection() {
             transition={{ duration:0.6, delay:0.15 }}
             style={{
               position:'absolute', zIndex:10,
-              top:'60px', left:'20px', right:'20px',
+              top:'70px', left:'20px', right:'20px',
             }}
           >
             <h1 style={{
@@ -275,7 +275,7 @@ export default function HeroSection() {
             style={{
               position:'absolute', zIndex:10,
               left:'20px', right:'20px',
-              bottom:'calc(20px + env(safe-area-inset-bottom, 0px))',
+              bottom:'calc(120px + env(safe-area-inset-bottom, 0px))',
               display:'flex', flexDirection:'column', gap:'6px',
             }}
           >

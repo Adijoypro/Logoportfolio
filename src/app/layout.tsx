@@ -2,12 +2,12 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Nama Anda — Logo Designer & Brand Identity',
-  description: 'Logo Designer berbasis di Kalimantan. Merancang identitas visual yang hidup dan diingat — bukan sekadar simbol.',
-  keywords: ['logo designer', 'brand identity', 'kalimantan', 'desain logo', 'identitas visual'],
-  authors: [{ name: 'Nama Anda' }],
+  title: 'Adi Saputra — Logo Designer & Brand Identity',
+  description: 'Logo Designer berbasis di Tenggarong Kota Raja, Kutai Kartanegara, Kalimantan Timur. Merancang identitas visual yang hidup dan diingat — bukan sekadar simbol.',
+  keywords: ['logo designer', 'brand identity', 'kalimantan','Tenggarong', 'kutai kartanegara', 'kalimantan timur', 'desain logo', 'identitas visual'],
+  authors: [{ name: 'Adi Saputra' }],
   openGraph: {
-    title: 'Nama Anda — Logo Designer',
+    title: 'Adi Saputra — Logo Designer',
     description: 'Merancang identitas yang hidup dan diingat.',
     type: 'website',
     locale: 'id_ID',

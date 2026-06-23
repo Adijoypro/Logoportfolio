@@ -191,7 +191,7 @@ export const SERVICES = [
 // ─────────────────────────────────────────────────────
 export const ABOUT = {
   bio: [
-    'Saya adalah logo designer berbasis di Kalimantan yang telah membantu lebih dari 60 bisnis — dari startup lokal hingga brand regional — menemukan suara visual mereka yang sesungguhnya.',
+    'Saya adalah logo designer berbasis di Tenggarong, Kutai Kartanegara, Kalimantan Timur yang telah membantu banyak bisnis — dari startup lokal hingga brand regional — menemukan suara visual mereka yang sesungguhnya.',
     'Proses saya dimulai bukan dari kertas, tapi dari pertanyaan. Apa yang bisnis ini yakini? Siapa yang harus tertarik? Apa yang membedakan mereka? Jawaban dari pertanyaan itulah yang menjadi fondasi setiap mark yang saya buat.',
     'Saya tidak mendesain untuk tren. Saya mendesain untuk ketahanan.',
   ],
